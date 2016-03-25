@@ -1,5 +1,5 @@
 //
-//  AddEntryViewController.swift
+//  EntryDetailViewController.swift
 //  Goals
 //
 //  Created by Mark F on 3/24/16.
@@ -9,15 +9,15 @@
 import Foundation
 import UIKit
 
-protocol AddEntryViewControllerDelegate: class {
-    func addEntryViewControllerDidCancel(controller: AddEntryViewController)
-    func addEntryViewController(controller: AddEntryViewController, didFinishAddingEntry entry: ProgressEntry)
-    func addEntryViewController(controller: AddEntryViewController, didFinishEditingEntry entry: ProgressEntry)
+protocol EntryDetailViewControllerDelegate: class {
+    func entryDetailViewControllerDidCancel(controller: EntryDetailViewController)
+    func entryDetailViewController(controller: EntryDetailViewController, didFinishAddingEntry entry: ProgressEntry)
+    func entryDetailViewController(controller: EntryDetailViewController, didFinishEditingEntry entry: ProgressEntry)
 }
 
-class AddEntryViewController: UITableViewController, UITextFieldDelegate, UITextViewDelegate {
+class EntryDetailViewController: UITableViewController, UITextFieldDelegate, UITextViewDelegate {
     
-    weak var delegate: AddEntryViewControllerDelegate?
+    weak var delegate: EntryDetailViewControllerDelegate?
     var entryToEdit: ProgressEntry?
     
     @IBOutlet weak var amountField: UITextField!
@@ -39,7 +39,7 @@ class AddEntryViewController: UITableViewController, UITextFieldDelegate, UIText
     }
     
     @IBAction func cancel() {
-        delegate?.addEntryViewControllerDidCancel(self)
+        delegate?.entryDetailViewControllerDidCancel(self)
     }
     
     @IBAction func done() {
@@ -47,13 +47,13 @@ class AddEntryViewController: UITableViewController, UITextFieldDelegate, UIText
         if let entry = entryToEdit {
             entry.amount = Double(amountField.text!)!
             entry.text = textField.text
-            delegate?.addEntryViewController(self, didFinishEditingEntry: entry)
+            delegate?.entryDetailViewController(self, didFinishEditingEntry: entry)
         } else {
             let entry = ProgressEntry()
             entry.text = textField.text
             entry.amount = Double(amountField.text!)!
             entry.date = NSDate()
-            delegate?.addEntryViewController(self, didFinishAddingEntry: entry)
+            delegate?.entryDetailViewController(self, didFinishAddingEntry: entry)
         }
     }
     

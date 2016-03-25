@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ProgressViewController: UITableViewController, AddEntryViewControllerDelegate {
+class ProgressViewController: UITableViewController, EntryDetailViewControllerDelegate {
     
     var progressEntries: [ProgressEntry]
     let dateFormatter = NSDateFormatter()
@@ -93,11 +93,11 @@ class ProgressViewController: UITableViewController, AddEntryViewControllerDeleg
         dateLabel.text = dateFormatter.stringFromDate(entry.date)
     }
 
-    func addEntryViewControllerDidCancel(controller: AddEntryViewController) {
+    func entryDetailViewControllerDidCancel(controller: EntryDetailViewController) {
         dismissViewControllerAnimated(true, completion: nil)
     }
     
-    func addEntryViewController(controller: AddEntryViewController, didFinishAddingEntry entry: ProgressEntry) {
+    func entryDetailViewController(controller: EntryDetailViewController, didFinishAddingEntry entry: ProgressEntry) {
         
         let newRowIndex = progressEntries.count
         progressEntries.append(entry)
@@ -109,7 +109,7 @@ class ProgressViewController: UITableViewController, AddEntryViewControllerDeleg
         dismissViewControllerAnimated(true, completion: nil)
     }
     
-    func addEntryViewController(controller: AddEntryViewController, didFinishEditingEntry entry: ProgressEntry) {
+    func entryDetailViewController(controller: EntryDetailViewController, didFinishEditingEntry entry: ProgressEntry) {
         if let index = progressEntries.indexOf(entry) {
             let indexPath = NSIndexPath(forRow: index, inSection: 0)
             if let cell = tableView.cellForRowAtIndexPath(indexPath) {
@@ -122,11 +122,11 @@ class ProgressViewController: UITableViewController, AddEntryViewControllerDeleg
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "AddEntry" {
             let navigationController = segue.destinationViewController as! UINavigationController
-            let controller = navigationController.topViewController as! AddEntryViewController
+            let controller = navigationController.topViewController as! EntryDetailViewController
             controller.delegate = self
         } else if segue.identifier == "EditEntry" {
             let navigationController = segue.destinationViewController as! UINavigationController
-            let controller = navigationController.topViewController as! AddEntryViewController
+            let controller = navigationController.topViewController as! EntryDetailViewController
             controller.delegate = self
             
             if let indexPath = tableView.indexPathForCell(sender as! UITableViewCell) {
