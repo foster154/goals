@@ -8,7 +8,7 @@
 
 import Foundation
 
-class ProgressEntry {
+class ProgressEntry: NSObject {
     var text = ""
     var amount = 0.00
     var date = NSDate()

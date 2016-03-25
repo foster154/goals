@@ -65,16 +65,8 @@ class ProgressViewController: UITableViewController, AddEntryViewControllerDeleg
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("GoalEntry", forIndexPath: indexPath)
-        
         let progressEntry = progressEntries[indexPath.row]
-        let textLabel = cell.viewWithTag(1000) as! UILabel
-        let amountLabel = cell.viewWithTag(1001) as! UILabel
-        let dateLabel = cell.viewWithTag(1002) as! UILabel
-        textLabel.text = progressEntry.text
-        amountLabel.text = String(progressEntry.amount)
-        dateFormatter.dateFormat = "dd MMM yy"
-        dateLabel.text = dateFormatter.stringFromDate(progressEntry.date)
-        
+        configureTextForCell(cell, withProgressEntry: progressEntry)
         
         return cell
     }
@@ -89,6 +81,16 @@ class ProgressViewController: UITableViewController, AddEntryViewControllerDeleg
         
         let indexPaths = [indexPath]
         tableView.deleteRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
+    }
+    
+    func configureTextForCell(cell: UITableViewCell, withProgressEntry entry: ProgressEntry) {
+        let textLabel = cell.viewWithTag(1000) as! UILabel
+        let amountLabel = cell.viewWithTag(1001) as! UILabel
+        let dateLabel = cell.viewWithTag(1002) as! UILabel
+        textLabel.text = entry.text
+        amountLabel.text = String(entry.amount)
+        dateFormatter.dateFormat = "dd MMM yy"
+        dateLabel.text = dateFormatter.stringFromDate(entry.date)
     }
 
     func addEntryViewControllerDidCancel(controller: AddEntryViewController) {
@@ -107,11 +109,29 @@ class ProgressViewController: UITableViewController, AddEntryViewControllerDeleg
         dismissViewControllerAnimated(true, completion: nil)
     }
     
+    func addEntryViewController(controller: AddEntryViewController, didFinishEditingEntry entry: ProgressEntry) {
+        if let index = progressEntries.indexOf(entry) {
+            let indexPath = NSIndexPath(forRow: index, inSection: 0)
+            if let cell = tableView.cellForRowAtIndexPath(indexPath) {
+                configureTextForCell(cell, withProgressEntry: entry)
+            }
+        }
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "AddEntry" {
             let navigationController = segue.destinationViewController as! UINavigationController
             let controller = navigationController.topViewController as! AddEntryViewController
             controller.delegate = self
+        } else if segue.identifier == "EditEntry" {
+            let navigationController = segue.destinationViewController as! UINavigationController
+            let controller = navigationController.topViewController as! AddEntryViewController
+            controller.delegate = self
+            
+            if let indexPath = tableView.indexPathForCell(sender as! UITableViewCell) {
+                controller.entryToEdit = progressEntries[indexPath.row]
+            }
         }
     }
 }

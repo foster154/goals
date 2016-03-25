@@ -42,6 +42,9 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="qub-EE-pc3" kind="presentation" identifier="EditEntry" id="ehl-QG-zkI"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -59,7 +62,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rTF-7J-yeQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1116" y="422"/>
+            <point key="canvasLocation" x="1195" y="422"/>
         </scene>
         <!--Add Entry-->
         <scene sceneID="rfM-bF-zin">
@@ -234,4 +237,7 @@
             <point key="canvasLocation" x="1932" y="422"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="ehl-QG-zkI"/>
+    </inferredMetricsTieBreakers>
 </document>
