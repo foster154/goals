@@ -15,38 +15,11 @@ class ProgressViewController: UITableViewController, EntryDetailViewControllerDe
     
     required init?(coder aDecoder: NSCoder) {
         progressEntries = [ProgressEntry]()
-        
-        let row0item = ProgressEntry()
-        row0item.text = "Lower hulls and red cliffs"
-        row0item.amount = 8.1
-        row0item.date = ProgressEntry.convertStringToDateTemp("12 Jan 16")
-        progressEntries.append(row0item)
-        
-        let row1item = ProgressEntry()
-        row1item.text = "Moab trip with Aidan"
-        row1item.amount = 14.2
-        row0item.date = ProgressEntry.convertStringToDateTemp("17 Jan 16")
-        progressEntries.append(row1item)
-        
-        let row2item = ProgressEntry()
-        row2item.text = "Moab trip with Aidan"
-        row2item.amount = 12.0
-        row0item.date = ProgressEntry.convertStringToDateTemp("19 Jan 16")
-        progressEntries.append(row2item)
-        
-        let row3item = ProgressEntry()
-        row3item.text = "Lower hulls and red cliffs"
-        row3item.amount = 8.1
-        row0item.date = ProgressEntry.convertStringToDateTemp("14 Feb 16")
-        progressEntries.append(row3item)
-        
-        let row4item = ProgressEntry()
-        row4item.text = "Polecat gulch"
-        row4item.amount = 6.4
-        row0item.date = ProgressEntry.convertStringToDateTemp("17 Mar 16")
-        progressEntries.append(row4item)
-        
         super.init(coder: aDecoder)
+        loadProgressEntries()
+        
+//        print("Documents folder is \(documentsDirectory())")
+//        print("Data file path is \(dataFilePath())")
     }
 
     override func viewDidLoad() {
@@ -81,6 +54,7 @@ class ProgressViewController: UITableViewController, EntryDetailViewControllerDe
         
         let indexPaths = [indexPath]
         tableView.deleteRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
+        saveProgressEntries()
     }
     
     func configureTextForCell(cell: UITableViewCell, withProgressEntry entry: ProgressEntry) {
@@ -107,6 +81,7 @@ class ProgressViewController: UITableViewController, EntryDetailViewControllerDe
         tableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
         
         dismissViewControllerAnimated(true, completion: nil)
+        saveProgressEntries()
     }
     
     func entryDetailViewController(controller: EntryDetailViewController, didFinishEditingEntry entry: ProgressEntry) {
@@ -117,6 +92,7 @@ class ProgressViewController: UITableViewController, EntryDetailViewControllerDe
             }
         }
         dismissViewControllerAnimated(true, completion: nil)
+        saveProgressEntries()
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -131,6 +107,34 @@ class ProgressViewController: UITableViewController, EntryDetailViewControllerDe
             
             if let indexPath = tableView.indexPathForCell(sender as! UITableViewCell) {
                 controller.entryToEdit = progressEntries[indexPath.row]
+            }
+        }
+    }
+    
+    func documentsDirectory() -> String {
+        let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+        return paths[0]
+    }
+    
+    func dataFilePath() -> String {
+        return (documentsDirectory() as NSString).stringByAppendingPathComponent("Checklists.plist")
+    }
+    
+    func saveProgressEntries() {
+        let data = NSMutableData()
+        let archiver = NSKeyedArchiver(forWritingWithMutableData: data)
+        archiver.encodeObject(progressEntries, forKey: "ProgressEntries")
+        archiver.finishEncoding()
+        data.writeToFile(dataFilePath(), atomically: true)
+    }
+    
+    func loadProgressEntries() {
+        let path = dataFilePath()
+        if NSFileManager.defaultManager().fileExistsAtPath(path) {
+            if let data = NSData(contentsOfFile: path) {
+                let unarchiver = NSKeyedUnarchiver(forReadingWithData: data)
+                progressEntries = unarchiver.decodeObjectForKey("ProgressEntries") as! [ProgressEntry]
+                unarchiver.finishDecoding()
             }
         }
     }
