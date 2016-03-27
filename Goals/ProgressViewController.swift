@@ -10,6 +10,7 @@ import UIKit
 
 class ProgressViewController: UITableViewController, EntryDetailViewControllerDelegate {
     
+    var goal: Goal!
     var progressEntries: [ProgressEntry]
     let dateFormatter = NSDateFormatter()
     
@@ -24,6 +25,7 @@ class ProgressViewController: UITableViewController, EntryDetailViewControllerDe
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = goal.name
         // Do any additional setup after loading the view, typically from a nib.
     }
 
@@ -138,6 +140,13 @@ class ProgressViewController: UITableViewController, EntryDetailViewControllerDe
             }
         }
     }
+    
+//      ## Is this helpful when trying to add more goal data to the Progress screen?
+    
+//    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+//        // #warning Incomplete implementation, return the number of sections
+//        return 0
+//    }
 }
 
 

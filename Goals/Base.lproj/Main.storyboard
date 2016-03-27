@@ -6,7 +6,7 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--Progress-->
+        <!--(Name of Goal)-->
         <scene sceneID="WYh-eM-9Df">
             <objects>
                 <tableViewController id="BLg-v8-4JQ" customClass="ProgressViewController" customModule="Goals" customModuleProvider="target" sceneMemberID="viewController">
@@ -52,7 +52,7 @@
                             <outlet property="delegate" destination="BLg-v8-4JQ" id="0X3-br-N6f"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Progress" id="LXF-AE-WfD">
+                    <navigationItem key="navigationItem" title="(Name of Goal)" id="LXF-AE-WfD">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="xxx-Yp-c1X">
                             <connections>
                                 <segue destination="qub-EE-pc3" kind="presentation" identifier="AddEntry" id="hL1-cW-le3"/>
@@ -63,6 +63,109 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rTF-7J-yeQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1195" y="422"/>
+        </scene>
+        <!--Add Goal-->
+        <scene sceneID="3Xf-eB-Mqu">
+            <objects>
+                <tableViewController title="Add Goal" id="5Gd-3A-RP8" customClass="GoalDetailViewController" customModule="Goals" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="Rwy-3r-0yy">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <sections>
+                            <tableViewSection id="JS2-6Q-R8O">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="3mZ-yL-Sxf">
+                                        <rect key="frame" x="0.0" y="99" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3mZ-yL-Sxf" id="cFY-WN-tRE">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Name of Goal" textAlignment="natural" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="a6S-kh-8oO">
+                                                    <rect key="frame" x="8" y="7" width="584" height="30"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="words" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                                                    <connections>
+                                                        <action selector="done" destination="5Gd-3A-RP8" eventType="editingDidEndOnExit" id="UtM-lu-VXI"/>
+                                                        <outlet property="delegate" destination="5Gd-3A-RP8" id="KJD-bQ-ddh"/>
+                                                    </connections>
+                                                </textField>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                        <connections>
+                            <outlet property="dataSource" destination="5Gd-3A-RP8" id="LQm-qj-h67"/>
+                            <outlet property="delegate" destination="5Gd-3A-RP8" id="qib-Sj-JQ2"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Add Goal" id="q5o-Ry-LsB">
+                        <barButtonItem key="leftBarButtonItem" style="plain" systemItem="cancel" id="zPo-Qh-iHJ">
+                            <connections>
+                                <action selector="cancel" destination="5Gd-3A-RP8" id="jS8-7A-jtX"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" enabled="NO" style="done" systemItem="done" id="klu-T9-Tze">
+                            <connections>
+                                <action selector="done" destination="5Gd-3A-RP8" id="mdb-FL-1XE"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="doneBarButton" destination="klu-T9-Tze" id="iJI-9t-t28"/>
+                        <outlet property="textField" destination="a6S-kh-8oO" id="4MT-yd-Gtr"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Kgf-CX-aV4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1292" y="1298"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="Lrs-bY-2QY">
+            <objects>
+                <navigationController id="lxs-dD-kAh" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="F1B-yW-Ayn">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="5Gd-3A-RP8" kind="relationship" relationship="rootViewController" id="V4s-5e-mPv"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="YtT-Or-3Oa" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="472" y="1298"/>
+        </scene>
+        <!--Goals-->
+        <scene sceneID="DXc-2J-39G">
+            <objects>
+                <tableViewController id="wNl-eT-YMl" customClass="AllGoalsViewController" customModule="Goals" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="mnB-b4-BcV">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <connections>
+                            <outlet property="dataSource" destination="wNl-eT-YMl" id="Mxc-8i-uZG"/>
+                            <outlet property="delegate" destination="wNl-eT-YMl" id="LAN-L3-KAd"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Goals" id="HZd-ae-4wh">
+                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="add" id="euH-VY-X5I">
+                            <connections>
+                                <segue destination="lxs-dD-kAh" kind="presentation" identifier="AddGoal" id="k8u-Mk-i6q"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <segue destination="BLg-v8-4JQ" kind="show" identifier="ShowProgress" id="iqg-mK-g3a"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="VI3-aL-Ygw" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="470" y="422"/>
         </scene>
         <!--Add Entry-->
         <scene sceneID="rfM-bF-zin">
@@ -211,12 +314,12 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="BLg-v8-4JQ" kind="relationship" relationship="rootViewController" id="OXS-vQ-tK5"/>
+                        <segue destination="wNl-eT-YMl" kind="relationship" relationship="rootViewController" id="Ry2-Ub-UtO"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ID9-g1-x8R" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="304" y="422"/>
+            <point key="canvasLocation" x="-354" y="434"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Xvc-LP-P4N">
