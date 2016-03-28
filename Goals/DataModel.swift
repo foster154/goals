@@ -13,6 +13,7 @@ class DataModel {
     
     init() {
         loadGoals()
+        registerDefaults()
 //        print("Documents folder is \(documentsDirectory())")
     }
     
@@ -41,6 +42,21 @@ class DataModel {
                 goals = unarchiver.decodeObjectForKey("Goals") as! [Goal]
                 unarchiver.finishDecoding()
             }
+        }
+    }
+    
+    func registerDefaults() {
+        let dictionary = [ "GoalIndex": -1 ]
+        
+        NSUserDefaults.standardUserDefaults().registerDefaults(dictionary)
+    }
+    
+    var indexOfSelectedChecklist: Int {
+        get {
+            return NSUserDefaults.standardUserDefaults().integerForKey("GoalIndex")
+        }
+        set {
+            NSUserDefaults.standardUserDefaults().setInteger(newValue, forKey: "GoalIndex")
         }
     }
 }

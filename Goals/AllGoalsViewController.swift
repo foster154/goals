@@ -8,12 +8,33 @@
 
 import UIKit
 
-class AllGoalsViewController: UITableViewController, GoalDetailViewControllerDelegate {
+class AllGoalsViewController: UITableViewController, GoalDetailViewControllerDelegate, UINavigationControllerDelegate {
 
     var dataModel: DataModel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        navigationController?.delegate = self
+        
+        // Check if user was looking at a specific goal last time using the app.
+        // If so, take them to that goal.
+        let index = dataModel.indexOfSelectedChecklist
+        if index >= 0 && index < dataModel.goals.count {
+            let goal = dataModel.goals[index]
+            performSegueWithIdentifier("ShowProgress", sender: goal)
+        }
+    }
+    
+    func navigationController(navigationController: UINavigationController, willShowViewController viewController: UIViewController, animated: Bool) {
+        // if user navigations back to the "All Goals" screen, reset the GoalIndex to -1
+        if viewController === self {
+            dataModel.indexOfSelectedChecklist = -1
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -44,6 +65,8 @@ class AllGoalsViewController: UITableViewController, GoalDetailViewControllerDel
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        dataModel.indexOfSelectedChecklist = indexPath.row
         let goal = dataModel.goals[indexPath.row]
         performSegueWithIdentifier("ShowProgress", sender: goal)
     }
@@ -92,5 +115,6 @@ class AllGoalsViewController: UITableViewController, GoalDetailViewControllerDel
         let indexPaths = [indexPath]
         tableView.deleteRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
     }
+
 
 }
