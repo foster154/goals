@@ -9,23 +9,9 @@
 import UIKit
 
 class AllGoalsViewController: UITableViewController, GoalDetailViewControllerDelegate {
-    
-    var goals: [Goal]
-    
-    required init?(coder aDecoder: NSCoder) {
-        goals = [Goal]()
-        super.init(coder: aDecoder)
-        
-        var goal = Goal(name: "Mountain Bike 200mi")
-        goals.append(goal)
-        
-        goal = Goal(name: "Study iOS 300h")
-        goals.append(goal)
-        
-        goal = Goal(name: "Read 18 books")
-        goals.append(goal)
-    }
 
+    var dataModel: DataModel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -35,7 +21,7 @@ class AllGoalsViewController: UITableViewController, GoalDetailViewControllerDel
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return goals.count
+        return dataModel.goals.count
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -43,7 +29,7 @@ class AllGoalsViewController: UITableViewController, GoalDetailViewControllerDel
         // ## Instead of using a prototype cell, we are creating the cells in code.
         //let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath)
         let cell = cellForTableView(tableView)
-        let goal = goals[indexPath.row]
+        let goal = dataModel.goals[indexPath.row]
         cell.textLabel!.text = goal.name
         return cell
     }
@@ -58,7 +44,7 @@ class AllGoalsViewController: UITableViewController, GoalDetailViewControllerDel
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let goal = goals[indexPath.row]
+        let goal = dataModel.goals[indexPath.row]
         performSegueWithIdentifier("ShowProgress", sender: goal)
     }
     
@@ -79,8 +65,8 @@ class AllGoalsViewController: UITableViewController, GoalDetailViewControllerDel
     }
     
     func goalDetailViewController(controller: GoalDetailViewController, didFinishAddingGoal goal: Goal) {
-        let newRowIndex = goals.count
-        goals.append(goal)
+        let newRowIndex = dataModel.goals.count
+        dataModel.goals.append(goal)
         
         let indexPath = NSIndexPath(forRow: newRowIndex, inSection: 0)
         let indexPaths = [indexPath]
@@ -90,7 +76,7 @@ class AllGoalsViewController: UITableViewController, GoalDetailViewControllerDel
     }
     
     func goalDetailViewController(controller: GoalDetailViewController, didFinishEditingGoal goal: Goal) {
-        if let index = goals.indexOf(goal) {
+        if let index = dataModel.goals.indexOf(goal) {
             let indexPath = NSIndexPath(forRow: index, inSection: 0)
             if let cell = tableView.cellForRowAtIndexPath(indexPath) {
                 cell.textLabel!.text = goal.name
@@ -101,12 +87,10 @@ class AllGoalsViewController: UITableViewController, GoalDetailViewControllerDel
     }
     
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        goals.removeAtIndex(indexPath.row)
+        dataModel.goals.removeAtIndex(indexPath.row)
         
         let indexPaths = [indexPath]
         tableView.deleteRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
     }
-    
-
 
 }
