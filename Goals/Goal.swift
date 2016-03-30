@@ -10,6 +10,8 @@ import UIKit
 
 class Goal: NSObject, NSCoding {
     var name = ""
+    var amount: Double?
+    var deadline: NSDate?
     var progressEntries = [ProgressEntry]()
     
     init(name: String) {
@@ -19,12 +21,16 @@ class Goal: NSObject, NSCoding {
     
     required init?(coder aDecoder: NSCoder) {
         name = aDecoder.decodeObjectForKey("Name") as! String
+        amount = aDecoder.decodeObjectForKey("Amount") as? Double
+        deadline = aDecoder.decodeObjectForKey("Deadline") as? NSDate
         progressEntries = aDecoder.decodeObjectForKey("ProgressEntries") as! [ProgressEntry]
         super.init()
     }
     
     func encodeWithCoder(aCoder: NSCoder) {
         aCoder.encodeObject(name, forKey: "Name")
+        aCoder.encodeObject(amount, forKey: "Amount")
+        aCoder.encodeObject(deadline, forKey: "Deadline")
         aCoder.encodeObject(progressEntries, forKey: "ProgressEntries")
     }
 }

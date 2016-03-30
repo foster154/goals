@@ -49,18 +49,35 @@ class AllGoalsViewController: UITableViewController, GoalDetailViewControllerDel
         
         // ## Instead of using a prototype cell, we are creating the cells in code.
         //let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath)
-        let cell = cellForTableView(tableView)
+//        let cell = cellForTableView(tableView)
+//        let goal = dataModel.goals[indexPath.row]
+//        cell.textLabel!.text = goal.name
+//        return cell
+        
+        let cell = tableView.dequeueReusableCellWithIdentifier("Goal", forIndexPath: indexPath)
         let goal = dataModel.goals[indexPath.row]
-        cell.textLabel!.text = goal.name
+        configureTextForCell(cell, withGoal: goal)
+        
         return cell
     }
     
-    func cellForTableView(tableView: UITableView) -> UITableViewCell {
-        let cellIdentifier = "Cell"
-        if let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) {
-            return cell
+//    func cellForTableView(tableView: UITableView) -> UITableViewCell {
+//        let cellIdentifier = "Cell"
+//        if let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) {
+//            return cell
+//        } else {
+//            return UITableViewCell(style: .Default, reuseIdentifier: cellIdentifier)
+//        }
+//    }
+    
+    func configureTextForCell(cell: UITableViewCell, withGoal goal: Goal) {
+        let goalNameLabel = cell.viewWithTag(1100) as! UILabel
+        let goalAmountLabel = cell.viewWithTag(1101) as! UILabel
+        goalNameLabel.text = goal.name
+        if let goalAmount = goal.amount {
+            goalAmountLabel.text = String(goalAmount)
         } else {
-            return UITableViewCell(style: .Default, reuseIdentifier: cellIdentifier)
+            goalAmountLabel.text = ""
         }
     }
     

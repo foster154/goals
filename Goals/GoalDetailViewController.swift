@@ -16,7 +16,8 @@ protocol GoalDetailViewControllerDelegate: class {
 
 class GoalDetailViewController: UITableViewController, UITextFieldDelegate {
     
-    @IBOutlet weak var textField: UITextField!
+    @IBOutlet weak var goalTitleField: UITextField!
+    @IBOutlet weak var goalAmountField: UITextField!
     @IBOutlet weak var doneBarButton: UIBarButtonItem!
     
     weak var delegate: GoalDetailViewControllerDelegate?
@@ -27,14 +28,14 @@ class GoalDetailViewController: UITableViewController, UITextFieldDelegate {
         super.viewDidLoad()
         if let goal = goalToEdit {
             title = "Edit Goal"
-            textField.text = goal.name
+            goalTitleField.text = goal.name
             doneBarButton.enabled = true
         }
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        textField.becomeFirstResponder()
+        goalTitleField.becomeFirstResponder()
     }
     
     @IBAction func cancel() {
@@ -43,10 +44,12 @@ class GoalDetailViewController: UITableViewController, UITextFieldDelegate {
     
     @IBAction func done() {
         if let goal = goalToEdit {
-            goal.name = textField.text!
+            goal.name = goalTitleField.text!
+            goal.amount = Double(goalAmountField.text!)!
             delegate?.goalDetailViewController(self, didFinishEditingGoal: goal)
         } else {
-            let goal = Goal(name: textField.text!)
+            let goal = Goal(name: goalTitleField.text!)
+            goal.amount = Double(goalAmountField.text!)!
             delegate?.goalDetailViewController(self, didFinishAddingGoal: goal)
         }
     }
@@ -56,8 +59,10 @@ class GoalDetailViewController: UITableViewController, UITextFieldDelegate {
     }
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        let oldText: NSString = textField.text!
+        let oldText: NSString = goalTitleField.text!
+        //print(oldText)
         let newText: NSString = oldText.stringByReplacingCharactersInRange(range, withString: string)
+        //print(newText)
         doneBarButton.enabled = (newText.length > 0)
         return true
     }
